@@ -5,11 +5,14 @@ require_relative 'classes/label'
 require_relative 'classes/item'
 require_relative 'modules/decorator'
 require_relative 'modules/list'
+require_relative 'modules/save_album'
+require_relative 'modules/save_genre'
 require 'json'
 
 module Options
   include Decorator
   include List
+  include SaveAlbum
   def display_options
     loop do
       puts 'Please choose an option by entering a number:'
@@ -127,6 +130,7 @@ module Options
     album = MusicAlbum.new(album_publish_date)
     Decorator.decorate(album, @authors, @genres, @labels)
     @albums << album
+    SaveAlbum.save_album(album)
     puts '----------------------------------------------'
     puts 'Album added successfully!'
     puts '----------------------------------------------'
@@ -159,42 +163,31 @@ module Options
   end
 
   def add_game
-    publish_date = ''
-    loop do
-      puts 'Enter the publish date of the game (YYYY-MM-DD):'
-      publish_date = gets.chomp
-      break if valid_date?(publish_date)
+    game_publish_date = verify_publish_date
 
-      puts 'Invalid date! Please enter a valid date in the format YYYY-MM-DD.'
-    end
+    puts 'Thats the game has multiplayer? (y/n)'
+    game_multiplayer = gets.chomp
 
-    puts 'Is the game multiplayer? (yes/no)'
-    multiplayer = gets.chomp.downcase == 'yes'
+    game_last_played_date = verify_publish_date('Enter the last played date of the game (YYYY-MM-DD):')
 
-    last_played_at = ''
-    loop do
-      puts 'Enter the last played date of the game (YYYY-MM-DD):'
-      last_played_at = gets.chomp
-      break if valid_date?(last_played_at)
-
-      puts 'Invalid date! Please enter a valid date in the format YYYY-MM-DD.'
-    end
-
-    game = Game.new(publish_date, multiplayer, last_played_at)
+    game = Game.new(game_publish_date, game_multiplayer, game_last_played_date)
+    Decorator.decorate(game, @authors, @genres, @labels)
     @games << game
     save_game_to_json(game)
-    puts 'Game added successfully!'
+
+    puts '----------------------------------------------'
+    puts 'Game added successfully!!!'
+    puts '----------------------------------------------'
   end
 
-  # Añade este método de validación al módulo Options
   def valid_date?(date_str)
     date_str.match?(/^\d{4}-\d{2}-\d{2}$/)
   end
 
-  def verify_publish_date
+  def verify_publish_date(prompt = 'Enter the publish date of the item (YYYY-MM-DD):')
     publish_date = ''
     loop do
-      puts 'Enter the publish date of the album (YYYY-MM-DD):'
+      puts prompt
       publish_date = gets.chomp
       break if valid_date?(publish_date)
 
@@ -229,6 +222,14 @@ module Options
     end
 
     games
+  end
+
+  def load_albums_from_json
+    SaveAlbum.load_albums
+  end
+
+  def load_genres_from_json
+    SaveGenre.load_genres
   end
 
   def show_error
