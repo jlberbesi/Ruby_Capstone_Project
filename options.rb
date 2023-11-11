@@ -157,7 +157,7 @@ module Options
     puts 'Book added successfully.'
     @books << book
   end
-  
+
   def add_game
     publish_date = ''
     loop do
