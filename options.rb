@@ -7,7 +7,6 @@ require_relative 'modules/decorator'
 require_relative 'modules/list'
 require_relative 'modules/save_album'
 require_relative 'modules/save_genre'
-require_relative 'modules/save_game'
 require 'json'
 
 module Options
@@ -154,12 +153,13 @@ module Options
       break
     end
 
-    publish_date = verify_publish_date
+    publish_date = verify_publish_date('Enter the publish date of the book (YYYY-MM-DD):')
 
     book = Book.new(publisher: publisher, cover_state: cover_state, publish_date: publish_date)
     Decorator.decorate(book, @authors, @genres, @labels)
     puts 'Book added successfully.'
     @books << book
+    SaveBook.save_book(book)
   end
 
   def add_game
@@ -207,6 +207,14 @@ module Options
 
   def load_genres_from_json
     SaveGenre.load_genres
+  end
+
+  def load_labels_from_json
+    SaveLabel.load_labels
+  end
+
+  def load_books_from_json
+    SaveBook.load_books
   end
 
   def show_error
