@@ -50,11 +50,11 @@
   </ul>
 </details>
 
-## 🚀 Video Demo <a name="video-demo"></a>
+## 🚀 Video Demo <a name="https://www.loom.com/share/63eefe0879174ddb891b48e650aa394b"></a>
 
 [Video Presentation]()
 
-<p align="right">(<a href="https://www.loom.com/share/63eefe0879174ddb891b48e650aa394b">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 💻 Getting Started <a name="getting-started"></a>
 Catalog of my things is console app that will help you to keep a record of different types of things you own: books, music albums, movies, and games. Everything will be based on the UML class diagram presented below. The data will be stored in JSON files.
