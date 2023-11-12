@@ -155,8 +155,7 @@ rspec
 
 👤 **Carlos Zambrano**
 
-- GitHub: [@](https://github.com/)
-- Twitter: [@](https://twitter.com/)
+- GitHub: [@](https://github.com/Carlosz96)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
