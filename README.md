@@ -50,9 +50,9 @@
   </ul>
 </details>
 
-## 🚀 Video Demo <a name="https://www.loom.com/share/63eefe0879174ddb891b48e650aa394b"></a>
+## 🚀 Video Demo <a name="video-demo"></a>
 
-[Video Presentation]()
+[Video Presentation](https://www.loom.com/share/63eefe0879174ddb891b48e650aa394b)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
