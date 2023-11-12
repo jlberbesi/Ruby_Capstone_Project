@@ -54,6 +54,8 @@
 
 [Video Presentation](https://www.loom.com/share/63eefe0879174ddb891b48e650aa394b)
 
+[Second Video Presentation](https://www.loom.com/share/c21b34bd3dca4377846207e01a6c1573?sid=3db9a765-3bd1-413e-811e-1039527732a1)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 💻 Getting Started <a name="getting-started"></a>
