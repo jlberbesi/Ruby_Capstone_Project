@@ -7,9 +7,6 @@ require_relative 'modules/decorator'
 require_relative 'modules/list'
 require_relative 'modules/save_album'
 require_relative 'modules/save_genre'
-require_relative 'modules/save_label'
-require_relative 'modules/save_book'
-require_relative 'modules/save_game'
 require 'json'
 
 module Options
@@ -136,6 +133,7 @@ module Options
     puts 'Album added successfully!'
     puts '----------------------------------------------'
   end
+  # Dentro del módulo Options
 
   def add_book
     print 'Publisher: '
