@@ -7,12 +7,16 @@ require_relative 'modules/decorator'
 require_relative 'modules/list'
 require_relative 'modules/save_album'
 require_relative 'modules/save_genre'
+require_relative 'modules/save_label'
+require_relative 'modules/save_book'
+require_relative 'modules/save_game'
 require 'json'
 
 module Options
   include Decorator
   include List
   include SaveAlbum
+  include SaveGame
   def display_options
     loop do
       puts 'Please choose an option by entering a number:'
@@ -92,10 +96,7 @@ module Options
     if @games.empty?
       puts 'No games available.'
     else
-      @games.each_with_index do |game, index|
-        puts "#{index + 1}.Date: #{game.publish_date} " \
-             "Multiplayer: #{game.multiplayer} Last played at: #{game.last_played_at}"
-      end
+      List.list_items(@games)
     end
   end
 
@@ -154,12 +155,13 @@ module Options
       break
     end
 
-    publish_date = verify_publish_date
+    publish_date = verify_publish_date('Enter the publish date of the book (YYYY-MM-DD):')
 
     book = Book.new(publisher: publisher, cover_state: cover_state, publish_date: publish_date)
     Decorator.decorate(book, @authors, @genres, @labels)
     puts 'Book added successfully.'
     @books << book
+    SaveBook.save_book(book)
   end
 
   def add_game
@@ -173,13 +175,14 @@ module Options
     game = Game.new(game_publish_date, game_multiplayer, game_last_played_date)
     Decorator.decorate(game, @authors, @genres, @labels)
     @games << game
-    save_game_to_json(game)
+    SaveGame.save_game_to_json(game)
 
     puts '----------------------------------------------'
     puts 'Game added successfully!!!'
     puts '----------------------------------------------'
   end
 
+  # Añade este método de validación al módulo Options
   def valid_date?(date_str)
     date_str.match?(/^\d{4}-\d{2}-\d{2}$/)
   end
@@ -196,32 +199,8 @@ module Options
     publish_date
   end
 
-  def save_game_to_json(game)
-    data = {
-      publish_date: game.publish_date.to_s,
-      multiplayer: game.multiplayer,
-      last_played_at: game.last_played_at.to_s,
-      archived: game.archived
-    }
-
-    File.open('games.json', 'a') do |file|
-      file.puts(data.to_json)
-    end
-  end
-
   def load_games_from_json
-    games = []
-
-    return games unless File.exist?('games.json')
-
-    File.open('games.json', 'r').each do |line|
-      data = JSON.parse(line)
-      game = Game.new(data['publish_date'], data['multiplayer'], data['last_played_at'],
-                      archived: data['archived'])
-      games << game
-    end
-
-    games
+    SaveGame.load_games_from_json
   end
 
   def load_albums_from_json
@@ -230,6 +209,14 @@ module Options
 
   def load_genres_from_json
     SaveGenre.load_genres
+  end
+
+  def load_labels_from_json
+    SaveLabel.load_labels
+  end
+
+  def load_books_from_json
+    SaveBook.load_books
   end
 
   def show_error
